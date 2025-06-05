@@ -1,0 +1,79 @@
+package br.com.vpnmanager.service;
+
+import br.com.vpnmanager.entity.User;
+import br.com.vpnmanager.entity.VPN;
+import br.com.vpnmanager.repository.VPNRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+//import java.io.IOException;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.List;
+
+@Service
+public class VPNService {
+
+    @Autowired
+    private VPNRepository vpnRepository;
+
+    @Autowired
+    @Lazy
+    private UserService userService;
+
+    private static final SecureRandom random = new SecureRandom();
+
+    public List<VPN> findByUser(User user) {
+        return vpnRepository.findByUser(user);
+    }
+
+    public List<VPN> searchByLabel(User user, String label) {
+        return vpnRepository.findByUserAndLabelContainingIgnoreCase(user, label);
+    }
+
+    public void create(Long userId) {
+        User user = userService.findById(userId);
+        String label = generateUniqueLabel();
+
+        // try {
+        // Process process = new ProcessBuilder("python3",
+        // "/opt/easy-rsa/scripts/create_certificate_client.py",
+        // user.getUsername(), label).start();
+        // process.waitFor();
+        // } catch (IOException | InterruptedException e) {
+        // throw new RuntimeException("Failed to create certificate", e);
+        // }
+
+        VPN vpn = new VPN();
+        vpn.setLabel(label);
+        vpn.setUser(user);
+        vpn.setCreatedDate(LocalDateTime.now());
+        vpnRepository.save(vpn);
+    }
+
+    public void revoke(Long vpnId) {
+        // VPN vpn = vpnRepository.findById(vpnId).orElseThrow();
+        // try {
+        // Process process = new ProcessBuilder("python3",
+        // "/opt/easy-rsa/scripts/revoke_certificate_client.py",
+        // vpn.getUser().getUsername(), vpn.getLabel()).start();
+        // process.waitFor();
+        // } catch (IOException | InterruptedException e) {
+        // throw new RuntimeException("Failed to revoke certificate", e);
+        // }
+
+        vpnRepository.deleteById(vpnId);
+    }
+
+    private String generateUniqueLabel() {
+        byte[] bytes = new byte[5]; // ~7 base64 characters
+        String label;
+        do {
+            random.nextBytes(bytes);
+            label = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+        } while (vpnRepository.existsByLabel(label));
+        return label;
+    }
+}
