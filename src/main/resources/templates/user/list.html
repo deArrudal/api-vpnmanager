@@ -40,6 +40,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>VPNs</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -50,19 +51,28 @@
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.role}"></td>
                     <td>
+                        <a class="btn btn-sm btn-secondary" th:href="@{/admin/users/{id}/vpns(id=${user.id})}">Link</a>
+                    </td>
+                    <td>
                         <a class="btn btn-sm btn-info" th:href="@{/admin/users/edit/{id}(id=${user.id})}">Edit</a>
-                        <!-- TODO: fix path for user -->
-                        <a class="btn btn-sm btn-secondary" th:href="@{/admin/users/{id}/vpns(id=${user.id})}">VPNs</a>
                         <form th:action="@{/admin/users/delete/{id}(id=${user.id})}" method="post"
                             style="display:inline-block;">
-                            <button class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure?')">Remove</button>
+                            <button class="btn btn-danger btn-sm" th:attr="data-label=${user.username}"
+                                onclick="return confirmRemove(this);">
+                                Remove
+                            </button>
                         </form>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <script>
+        function confirmRemove(button) {
+            const label = button.getAttribute("data-label");
+            return confirm(`Are you sure you want to remove user '${label}'?`);
+        }
+    </script>
 </body>
 
 </html>

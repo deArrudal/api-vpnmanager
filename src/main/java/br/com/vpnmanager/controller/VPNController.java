@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/users/{userId}/vpns") // TODO: fix path for user
+@RequestMapping("/admin/users/{userId}/vpns")
 public class VPNController {
 
     @Autowired
@@ -35,14 +35,12 @@ public class VPNController {
     @PostMapping("/{vpnId}/revoke")
     public String revokeVpn(@PathVariable Long userId, @PathVariable Long vpnId) {
         vpnService.revoke(vpnId);
-        // TODO: fix path for user
         return "redirect:/admin/users/" + userId + "/vpns";
     }
 
     @GetMapping("/create")
     public String createVpn(@PathVariable Long userId) {
         vpnService.create(userId);
-        // TODO: fix path for user
         return "redirect:/admin/users/" + userId + "/vpns";
     }
 }

@@ -19,7 +19,7 @@ public class RoleBasedAuthenticationSuccessHandler implements AuthenticationSucc
                 response.sendRedirect("/admin/users");
                 return;
             } else if (authority.getAuthority().equals("USER")) {
-                response.sendRedirect("/user/vpns"); // TODO: fix path
+                response.sendRedirect("/vpns");
                 return;
             }
         }

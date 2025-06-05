@@ -76,4 +76,10 @@ public class VPNService {
         } while (vpnRepository.existsByLabel(label));
         return label;
     }
+
+    public boolean belongsToUser(Long vpnId, User user) {
+        return vpnRepository.findById(vpnId)
+                .map(vpn -> vpn.getUser().getId().equals(user.getId()))
+                .orElse(false);
+    }
 }

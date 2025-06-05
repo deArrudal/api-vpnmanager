@@ -4,6 +4,7 @@ import br.com.vpnmanager.entity.User;
 import br.com.vpnmanager.entity.VPN;
 import br.com.vpnmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,10 @@ public class UserService {
 
     public List<User> searchByUsername(String username) {
         return userRepository.findByUsernameContainingIgnoreCase(username);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }
