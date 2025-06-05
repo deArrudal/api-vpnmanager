@@ -12,9 +12,10 @@
     <!-- Navigation menu -->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">VPN Manager</a>
+            <h2 class="navbar-brand">VPN Manager</h2>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <!-- Logout button -->
                     <form th:action="@{/logout}" method="post" style="display: inline;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="nav-link btn btn-link" style="padding: 0;">Logout</button>
@@ -35,7 +36,7 @@
             <form class="flex-grow-1 ms-3" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"
                 th:action="@{/admin/users/{id}/vpns(id=${user.id})}" method="get">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search by label" />
+                    <input type="text" name="search" class="form-control" placeholder="Search by Label" />
                     <button class="btn btn-outline-secondary">Search</button>
                 </div>
             </form>
@@ -61,7 +62,12 @@
                 <tr th:each="vpn : ${vpns}">
                     <td th:text="${vpn.label}"></td>
                     <td th:text="${vpn.createdDate}"></td>
-                    <td>---</td>
+                    <!-- VPN download button -->
+                    <td>
+                        <a class="btn btn-sm btn-success" th:if="${vpn.downloadUrl}"
+                            th:href="@{${vpn.downloadUrl}}">Download</a>
+                    </td>
+                    <!-- Action menu -->
                     <td>
                         <!-- Revoke option -->
                         <form th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"
@@ -82,11 +88,12 @@
                 </tr>
             </tbody>
         </table>
+        <!-- Return to Users page -->
         <a class="btn btn-secondary" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"
             th:href="@{/admin/users}">Back to Users</a>
     </div>
+    <!-- Confirm revoke script -->
     <script>
-        <!-- Confirm revoke -->
         function confirmRevoke(button) {
             const label = button.getAttribute("data-label");
             return confirm(`Are you sure you want to revoke VPN '${label}'?`);

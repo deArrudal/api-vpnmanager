@@ -9,11 +9,13 @@
 </head>
 
 <body class="bg-light" th:fragment="layout(content)">
+    <!-- Navigation menu -->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">VPN Manager</a>
+            <h2 class="navbar-brand">VPN Manager</h2>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <!-- Logout button -->
                     <form th:action="@{/logout}" method="post" style="display: inline;">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="nav-link btn btn-link" style="padding: 0;">Logout</button>
@@ -24,6 +26,7 @@
     </nav>
     <div class="container mt-4">
         <h2>Edit User</h2>
+        <!-- User update form -->
         <form th:action="@{/admin/users/update}" th:object="${user}" method="post"
             onsubmit="return validatePasswords()">
             <input type="hidden" th:field="*{id}" />
@@ -33,15 +36,18 @@
             </div>
             <div class="mb-3">
                 <label>First Name:</label>
-                <input class="form-control" th:field="*{firstName}" required minlength="3" maxlength="30" />
+                <input class="form-control" th:field="*{firstName}" placeholder="John" required minlength="3"
+                    maxlength="30" />
             </div>
             <div class="mb-3">
                 <label>Last Name:</label>
-                <input class="form-control" th:field="*{lastName}" required minlength="3" maxlength="30" />
+                <input class="form-control" th:field="*{lastName}" placeholder="Doe" required minlength="3"
+                    maxlength="30" />
             </div>
             <div class="mb-3">
                 <label>Email:</label>
-                <input type="email" class="form-control" th:field="*{email}" required minlength="3" maxlength="30" />
+                <input type="email" class="form-control" th:field="*{email}" placeholder="johndoe@mail.com" required
+                    minlength="3" maxlength="30" />
             </div>
             <div class="mb-3">
                 <label>Password:</label>
@@ -61,9 +67,11 @@
                 </select>
             </div>
             <button class="btn btn-primary">Update</button>
+            <!-- Cancel button -->
             <a class="btn btn-secondary" th:href="@{/admin/users}">Cancel</a>
         </form>
     </div>
+    <!-- Validate password script -->
     <script>
         function validatePasswords() {
             const password = document.getElementById("password").value;

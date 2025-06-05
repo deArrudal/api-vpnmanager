@@ -9,15 +9,17 @@
 </head>
 
 <body class="bg-light">
+    <!-- Navigation menu -->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">VPN Manager</a>
+            <h2 class="navbar-brand">VPN Manager</h2>
         </div>
     </nav>
     <div class="container mt-5" th:fragment="content">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h3 class="text-center mb-4">Login</h3>
+                <!-- Login form -->
                 <form th:action="@{/login}" method="post">
                     <div class="form-group mb-3">
                         <label for="username">Username:</label>
@@ -29,11 +31,11 @@
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                             required />
                     </div>
-                    <div th:if="${param.error}" class="alert alert-danger">
-                        Invalid username or password.
+                    <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center">
+                        <p class="flex-grow-1 text-center">Invalid username or password.</p>
                     </div>
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        You have been logged out.
+                    <div th:if="${param.logout}" class="alert alert-success d-flex align-items-center">
+                        <p class="flex-grow-1 text-center">You have been logged out.</p>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Login</button>
                 </form>

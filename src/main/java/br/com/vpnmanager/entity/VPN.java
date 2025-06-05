@@ -16,6 +16,8 @@ public class VPN {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    private String downloadUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,6 +45,14 @@ public class VPN {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 
     public User getUser() {

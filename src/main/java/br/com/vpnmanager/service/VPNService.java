@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-//import java.io.IOException;
+// import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -42,24 +42,36 @@ public class VPNService {
         // "/opt/easy-rsa/scripts/create_certificate_client.py",
         // user.getUsername(), label).start();
         // process.waitFor();
+
+        // VPN vpn = new VPN();
+        // vpn.setLabel(label);
+        // vpn.setCreatedDate(LocalDateTime.now());
+        // vpn.setDownloadUrl("/vpns/download/" + user.getUsername() + "_" +
+        // vpn.getLabel() + ".zip");
+        // vpn.setUser(user);
+        // vpnRepository.save(vpn);
         // } catch (IOException | InterruptedException e) {
         // throw new RuntimeException("Failed to create certificate", e);
         // }
 
         VPN vpn = new VPN();
         vpn.setLabel(label);
-        vpn.setUser(user);
         vpn.setCreatedDate(LocalDateTime.now());
+        vpn.setDownloadUrl("/vpns/download/" + user.getUsername() + "_" + vpn.getLabel() + ".zip");
+        vpn.setUser(user);
         vpnRepository.save(vpn);
     }
 
     public void revoke(Long vpnId) {
-        // VPN vpn = vpnRepository.findById(vpnId).orElseThrow();
         // try {
+        // VPN vpn = vpnRepository.findById(vpnId).orElseThrow();
+
         // Process process = new ProcessBuilder("python3",
         // "/opt/easy-rsa/scripts/revoke_certificate_client.py",
         // vpn.getUser().getUsername(), vpn.getLabel()).start();
         // process.waitFor();
+
+        // vpnRepository.deleteById(vpnId);
         // } catch (IOException | InterruptedException e) {
         // throw new RuntimeException("Failed to revoke certificate", e);
         // }
