@@ -57,7 +57,29 @@ vpnmanager/
 
 ```
 
-## Configuration
+## Requirements
+
+* Java 17+ (for Spring Boot 3.x)
+* Maven (Optional – if building on server)
+* Python 3
+* MySQL 8+
+* SSL certificate (PKCS12 format)
+
+## Quickstart (Offline Server)
+
+```bash
+# On development machine
+mvn dependency:go-offline -DincludePluginDependencies=true
+
+# Transfer to server
+scp -r vpnmanager/ userlinux@your-vpn-server:/home/userlinux/
+
+# On server
+cd /home/userlinux/vpnmanager
+./install.sh
+```
+
+## Project Configuration
 
 ### `application.properties`
 
@@ -99,36 +121,14 @@ This should match the output directory used by the Python certificate script.
 
 Responsible for executing:
 
-* `create_certificate_script.py`
-* `revoke_certificate_script.py`
+* `create_certificate_client.py`
+* `revoke_certificate_client.py`
 
 Update the paths to point to:
 
 ```java
-private static final String CREATE_SCRIPT = "/opt/easy-rsa/create_certificate_script.py";
-private static final String REVOKE_SCRIPT = "/opt/easy-rsa/revoke_certificate_script.py";
-```
-
-## Requirements
-
-* Java 17+ (for Spring Boot 3.x)
-* Maven (Optional – if building on server)
-* Python 3
-* MySQL 8+
-* SSL certificate (PKCS12 format)
-
-## Quickstart (Offline Server)
-
-```bash
-# On development machine
-mvn dependency:go-offline
-
-# Transfer to server
-scp -r vpnmanager/ userlinux@your-vpn-server:/home/userlinux/
-
-# On server
-cd /home/userlinux/vpnmanager
-./install.sh
+private static final String CREATE_SCRIPT = "/opt/easy-rsa/create_certificate_client.py";
+private static final String REVOKE_SCRIPT = "/opt/easy-rsa/revoke_certificate_client.py";
 ```
 
 ## MySQL Setup
@@ -148,7 +148,7 @@ cd /home/userlinux/vpnmanager
 
     Spring Boot will automatically create the tables based on your entities when spring.jpa.hibernate.ddl-auto=update is set.
 
-### Create an Admin user
+### Create an Admin user (After user table is created by springboot)
 
 Since the app doesn’t currently include an user registration or admin seeding logic, you need to manually insert one into MySQL:
 
@@ -208,7 +208,7 @@ Since the app doesn’t currently include an user registration or admin seeding 
 1. Navigate to the project folder and run:
 
     ```bash
-    mvn dependency:go-offline
+    mvn dependency:go-offline -DincludePluginDependencies=true
     ```
 
 1. Transfer project to the server via `scp` or `rsync`.

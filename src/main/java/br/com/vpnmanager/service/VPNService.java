@@ -25,8 +25,8 @@ public class VPNService {
 
     private static final SecureRandom random = new SecureRandom();
 
-    private static final String CREATE_SCRIPT = "/opt/easy-rsa/create_certificate_script.py";
-    private static final String REVOKE_SCRIPT = "/opt/easy-rsa/revoke_certificate_script.py";
+    private static final String CREATE_SCRIPT = "/opt/easy-rsa/create_certificate_client.py";
+    private static final String REVOKE_SCRIPT = "/opt/easy-rsa/revoke_certificate_client.py";
 
     public List<VPN> findByUser(User user) {
         return vpnRepository.findByUser(user);
