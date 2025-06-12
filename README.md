@@ -244,6 +244,8 @@ Since the app doesn’t currently include an user registration or admin seeding 
 
     [Service]
     User=appuser
+    Group=certadmins
+    UMask=0002
     WorkingDirectory=/opt/vpnmanager
     ExecStart=/usr/bin/java -jar /opt/vpnmanager/vpnmanager.jar
     SuccessExitStatus=143
